@@ -101,5 +101,50 @@ namespace Statistics
 
             return multiplier;
         }
+
+        public static double Gamma(double z)
+        {
+            double factor = 1.0;
+            double delta = 1.0;
+            for (int n = 1; n <= 100 && delta > 0.0; n++)
+            {
+                double previous = factor;
+
+                factor *= (1.0 / (1.0 + (z / n))) * Math.Pow((1.0 + (1.0 / n)), z);
+
+                delta = Math.Abs(factor - previous);
+            }
+
+            return factor / z;
+        }
+
+        public static double Gamma(double z, int k)
+        {
+            double factor = 1.0;
+            double delta = 1.0;
+            for (int n = 1; n <= k && delta > 0.0; n++)
+            {
+                double previous = factor;
+
+                factor *= (1.0 / (1.0 + (z / n))) * Math.Pow((1.0 + (1.0 / n)), z);
+
+                delta = Math.Abs(factor - previous);
+            }
+
+            return factor / z;
+        }
+
+        public static double GammaIntegral(double z, double approxInfinity, double increment)
+        {
+            double series = 0.0;
+            double delta = 1.0;
+
+            for (double x = 0; x <= approxInfinity; x += increment)
+            {
+                series += (Math.Pow(x, z - 1) * Math.Exp(-x))*increment;
+            }
+
+            return series;
+        }
     }
 }
