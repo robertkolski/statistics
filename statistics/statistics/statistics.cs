@@ -37,18 +37,15 @@ namespace Statistics
             double factor = 1.0 / Math.Sqrt(2.0 * Math.PI) * Math.Exp(-z * z / 2.0);
 
             double series = z;
-            double lastSeriesValue = series;
-            double delta = Math.Abs(z);
+            double lastSeriesValue = 0;
 
             double doubleFactorial = 1.0;
-            for (int i = 3; delta > 0.0; i+=2)
+            for (int i = 3; Math.Abs(series - lastSeriesValue) > 0.0; i+=2)
             {
                 lastSeriesValue = series;
 
                 doubleFactorial *= i;
                 series += Math.Pow(z, i) / doubleFactorial;
-
-                delta = Math.Abs(series - lastSeriesValue);
             }
 
             return (1.0 / standardDeviation) * ((1.0 / 2.0) + (factor * series));
@@ -69,6 +66,40 @@ namespace Statistics
             }
 
             return toCDF - fromCDF;
+        }
+
+        public static int Factorial(int n)
+        {
+            if (n < 0)
+            {
+                throw new ArgumentException("Input cannot be negative");
+            }
+
+            int multiplier = 1;
+
+            for (int i = n; i > 1; i--)
+            {
+                multiplier *= i;
+            }
+
+            return multiplier;
+        }
+
+        public static int DoubleFactorial(int n)
+        {
+            if (n < 0)
+            {
+                throw new ArgumentException("Input cannot be negative");
+            }
+
+            int multiplier = 1;
+
+            for (int i = n; i > 1; i -= 2)
+            {
+                multiplier *= i;
+            }
+
+            return multiplier;
         }
     }
 }
